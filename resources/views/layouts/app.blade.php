@@ -32,16 +32,40 @@
                     <p class="text-xs font-semibold text-zinc-200">{{ Auth::user()->name }}</p>
                     <p class="text-[10px] uppercase tracking-widest text-zinc-500">{{ Auth::user()->role }}</p>
                 </div>
-                <span class="flex h-9 w-9 items-center justify-center rounded-xl border border-zinc-700 bg-zinc-800 text-xs font-bold text-crimson-400">
-                    {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
-                </span>
-                <form action="{{ route('logout') }}" method="POST">
-                    @csrf
-                    <button type="submit"
-                        class="rounded-lg border border-crimson-900/60 bg-crimson-950/40 px-3 py-1.5 text-[11px] font-bold tracking-wide text-crimson-400 transition hover:bg-crimson-900/50 hover:text-crimson-300">
-                        LOGOUT
-                    </button>
-                </form>
+
+                {{-- Dropdown profil --}}
+                <details class="relative group z-40">
+                    <summary class="flex cursor-pointer items-center gap-2 rounded-xl border border-zinc-700 bg-zinc-800 px-3 py-2 text-xs font-bold text-crimson-400 transition hover:bg-zinc-700 sm:px-4">
+                        {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                        <span class="hidden sm:inline text-[10px] text-zinc-400">▼</span>
+                    </summary>
+
+                    <div class="absolute right-0 mt-2 w-52 origin-top-right rounded-2xl border border-zinc-800 bg-zinc-900/95 p-2 shadow-2xl shadow-black/70 backdrop-blur-xl">
+                        <div class="border-b border-zinc-800 px-3 py-2.5">
+                            <p class="text-xs font-bold text-white truncate">{{ Auth::user()->name }}</p>
+                            <p class="text-[10px] text-zinc-500 truncate">{{ Auth::user()->email }}</p>
+                        </div>
+
+                        <div class="py-1">
+                            <a href="{{ route('profile.edit') }}"
+                                class="flex items-center gap-2.5 rounded-xl px-3 py-2 text-xs font-semibold text-zinc-300 transition hover:bg-zinc-800 hover:text-white">
+                                <svg class="h-4 w-4 text-crimson-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0ZM12 14a7 7 0 0 0-7 7h14a7 7 0 0 0-7-7Z"/></svg>
+                                Profil Saya
+                            </a>
+                        </div>
+
+                        <div class="border-t border-zinc-800 pt-1">
+                            <form action="{{ route('logout') }}" method="POST">
+                                @csrf
+                                <button type="submit"
+                                    class="flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-xs font-semibold text-rose-400 transition hover:bg-rose-950/40 text-left">
+                                    <svg class="h-4 w-4 text-rose-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                                    Keluar
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </details>
             </div>
             @endauth
         </div>

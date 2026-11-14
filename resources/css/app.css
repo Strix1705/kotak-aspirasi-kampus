@@ -11,6 +11,9 @@
     --color-crimson-950: #4c0519;
 }
 
+summary::-webkit-details-marker { display: none; }
+summary { list-style: none; }
+
 body {
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MahasiswaAspirationController;
 use App\Http\Controllers\AdminAspirationController;
+use App\Http\Controllers\ProfileController;
 
 Route::view('/', 'welcome')->name('home');
 
@@ -15,6 +16,15 @@ Route::middleware('guest')->group(function () {
     Route::post('/register', [AuthController::class, 'register'])->middleware('throttle:5,1');
 });
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
+
+// --- Profil (semua role yang login) ---
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    Route::patch('/profile/password', [ProfileController::class, 'updatePassword'])
+        ->middleware('throttle:6,1')
+        ->name('profile.password');
+});
 
 // --- Rute Mahasiswa (RBAC: hanya role mahasiswa) ---
 Route::middleware(['auth', 'role.mahasiswa'])
